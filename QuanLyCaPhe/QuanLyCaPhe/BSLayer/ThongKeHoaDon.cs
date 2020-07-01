@@ -10,22 +10,21 @@ namespace QuanLyCaPhe.BSLayer
 {
     public class ThongKeHoaDon
     {
-        DBMain db = new DBMain();
         string err = "";
 
         public DataSet LayThongKeHoaDon()
         {
-            return db.ExecuteQueryDataSet("select * from view_HoaDonBan", CommandType.Text);
+            return DBMain.getInstance().ExecuteQueryDataSet("select * from view_HoaDonBan", CommandType.Text);
         }
 
         public DataSet LayThongKeHoaDonTheoNhanVien(int MaNhanVien)
         {
-            return db.ExecuteQueryDataSet($"select IDHoaDon, TenNV, TenKH, NgayBan, ThanhTien from NhanVien_HoaDon_KhachHang where MaNV = {MaNhanVien}", CommandType.Text);
+            return DBMain.getInstance().ExecuteQueryDataSet($"select IDHoaDon, TenNV, TenKH, NgayBan, ThanhTien from NhanVien_HoaDon_KhachHang where MaNV = {MaNhanVien}", CommandType.Text);
         }
 
         public void ThemThongKeHoaDon(int IDHoaDon, int MaNV, string TenNV, string TenKH, DateTime NgayBan, float ThanhTien)
         {
-            db.MyExecuteNonQuery($"insert into NhanVien_HoaDon_KhachHang values({IDHoaDon}, {MaNV}, N'{TenNV}', N'{TenKH}', N'{NgayBan.ToString("yyyy-MM-dd HH:mm:ss")}', {ThanhTien})", CommandType.Text, ref err);
+            DBMain.getInstance().MyExecuteNonQuery($"insert into NhanVien_HoaDon_KhachHang values({IDHoaDon}, {MaNV}, N'{TenNV}', N'{TenKH}', N'{NgayBan.ToString("yyyy-MM-dd HH:mm:ss")}', {ThanhTien})", CommandType.Text, ref err);
         }
 
     }

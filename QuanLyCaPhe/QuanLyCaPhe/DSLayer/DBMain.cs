@@ -14,12 +14,24 @@ namespace QuanLyCaPhe.DBLayer
         SqlCommand cmd = null;
         SqlDataAdapter dt = null;
 
+        private static DBMain instance;
+
         //string strConnection = "Data Source=192.168.137.1;Initial Catalog=QuanLyCaPhe;User ID=sa;Password=123456;";
         string strConnection = "Data Source=./;" + "Initial Catalog=QuanLyCaPhe;" + "Integrated Security=True";
-        public DBMain()
+        
+        private DBMain()
         {
             conn = new SqlConnection(strConnection);
             cmd = conn.CreateCommand();
+        }
+
+        public static DBMain getInstance()
+        {
+            if (instance == null) {
+                instance = new DBMain();
+            }
+            
+            return instance;
         }
 
         /// <summary>

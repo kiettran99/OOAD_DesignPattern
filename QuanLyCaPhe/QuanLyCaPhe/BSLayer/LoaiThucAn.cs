@@ -11,34 +11,33 @@ namespace QuanLyCaPhe.BSLayer
 {
     public class LoaiThucAn
     {
-        DBMain dbMain = null;
         string err = "";
 
         public LoaiThucAn()
         {
-            dbMain = new DBMain();
+
         }
 
         public DataSet LayLoaiThucAn()
         {
-            return dbMain.ExecuteQueryDataSet("select *from LoaiThucAn", CommandType.Text);
+            return DBMain.getInstance().ExecuteQueryDataSet("select *from LoaiThucAn", CommandType.Text);
         }
 
         public DataSet LayDanhMuc()
         {
-            return dbMain.ExecuteQueryDataSet("Read_LoaiThucAn", CommandType.StoredProcedure);
+            return DBMain.getInstance().ExecuteQueryDataSet("Read_LoaiThucAn", CommandType.StoredProcedure);
         }
 
         public string TimIDTheoTenLoaiThucAn(string TenLoaiThucAn)
         {
-            return dbMain.FirstRowQuery($"select * from dbo.ufnTimIDTheoTenLoaiThucAn(N'{TenLoaiThucAn}')", CommandType.Text, ref err).ToString();
+            return DBMain.getInstance().FirstRowQuery($"select * from dbo.ufnTimIDTheoTenLoaiThucAn(N'{TenLoaiThucAn}')", CommandType.Text, ref err).ToString();
         }
 
         public bool ThemDanhMuc(string MaDanhMuc, string TenDanhMuc, ref string error)
         {
             try
             {
-                return dbMain.MyExecuteNonQuery("Create_LoaiThucAn", CommandType.StoredProcedure, ref error, new SqlParameter("@IDLoaiThucAn", MaDanhMuc), new SqlParameter("@TenLoaiThucAn", TenDanhMuc));
+                return DBMain.getInstance().MyExecuteNonQuery("Create_LoaiThucAn", CommandType.StoredProcedure, ref error, new SqlParameter("@IDLoaiThucAn", MaDanhMuc), new SqlParameter("@TenLoaiThucAn", TenDanhMuc));
             }
             catch (SqlException err)
             {
@@ -51,7 +50,7 @@ namespace QuanLyCaPhe.BSLayer
             bool f = false;
             try
             {
-                f = dbMain.MyExecuteNonQuery("Update_LoaiThucAn", CommandType.StoredProcedure, ref error, new SqlParameter("@IDLoaiThucAn", MaDanhMuc), new SqlParameter("@TenLoaiThucAn", TenDanhMuc));
+                f = DBMain.getInstance().MyExecuteNonQuery("Update_LoaiThucAn", CommandType.StoredProcedure, ref error, new SqlParameter("@IDLoaiThucAn", MaDanhMuc), new SqlParameter("@TenLoaiThucAn", TenDanhMuc));
                 error = "Sửa thành công";
                 return f;
             }
@@ -66,8 +65,8 @@ namespace QuanLyCaPhe.BSLayer
         public bool XoaDanhMuc(string MaDanhMuc, ref string error)
         {
             //string sqlString = $"delete from LoaiThucAn where MaThucAn = '{MaDanhMuc}'";
-            //return dbMain.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
-            return dbMain.MyExecuteNonQuery("Delete_LoaiThucAn", CommandType.StoredProcedure, ref error, new SqlParameter("@IDLoaiThucAn", MaDanhMuc));
+            //return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return DBMain.getInstance().MyExecuteNonQuery("Delete_LoaiThucAn", CommandType.StoredProcedure, ref error, new SqlParameter("@IDLoaiThucAn", MaDanhMuc));
         }
     }
 }

@@ -11,11 +11,9 @@ namespace QuanLyCaPhe.BSLayer
     public class DanhThu
     {
 
-        DBMain db = null;
-
         public DanhThu()
         {
-            db = new DBMain();
+         
         }
 
         /// <summary>
@@ -26,7 +24,7 @@ namespace QuanLyCaPhe.BSLayer
         {
             string strSQL = $"select IDHoaDon, TenBan, NgayTaoHoaDon, NgayKetThucHoaDon, GiamGia,TongTien from HoaDon join BanAn on HoaDon.IDBanAn = BanAn.IDBanAn where HoaDon.TinhTrang = 1 and cast(NgayTaoHo" +
                 $"aDon as date) >= '{ngayTaoHoaDon.Year}-{ngayTaoHoaDon.Month}-{ngayTaoHoaDon.Day}' and cast(NgayKetthucHoaDon as Date) <= '{ngayKetThucHoaDon.Year}-{ngayKetThucHoaDon.Month}-{ngayKetThucHoaDon.Day} '";
-            return db.ExecuteQueryDataSet(strSQL, CommandType.Text);
+            return DBMain.getInstance().ExecuteQueryDataSet(strSQL, CommandType.Text);
         }       
     }
 }

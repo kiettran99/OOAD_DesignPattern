@@ -10,21 +10,21 @@ namespace QuanLyCaPhe.BSLayer
 {
     class ThanhPho
     {
-        DBMain dbMain = null;
+
         string err = "";
         public ThanhPho()
         {
-            dbMain = new DBMain();
+
         }
 
         public DataSet LayThanhPho()
         {
-            return dbMain.ExecuteQueryDataSet("select *from ThanhPho", CommandType.Text);
+            return DBMain.getInstance().ExecuteQueryDataSet("select *from ThanhPho", CommandType.Text);
         }
 
         public int TimIDThanhPhoTheoTen(string tenThanhPho)
         {
-            return (int)dbMain.FirstRowQuery($"select distinct MaThanhPho from ThanhPho where ThanhPho.TenThanhPho = N'{tenThanhPho}'", CommandType.Text, ref err);
+            return (int)DBMain.getInstance().FirstRowQuery($"select distinct MaThanhPho from ThanhPho where ThanhPho.TenThanhPho = N'{tenThanhPho}'", CommandType.Text, ref err);
         }
 
         public bool ThemThanhPho(string TenTP, ref string error)
@@ -44,7 +44,7 @@ namespace QuanLyCaPhe.BSLayer
                 return false;
             }
             error = "Thêm thành công";
-            return dbMain.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
         }
 
         public bool SuaThanhPho(string TenTP,string MaTP, ref string error)
@@ -60,7 +60,7 @@ namespace QuanLyCaPhe.BSLayer
                 return false;
             }
             error = "Sửa thành công";
-            return dbMain.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
         }
 
         public bool Xoa(ref string error, string MaTP)
@@ -76,7 +76,7 @@ namespace QuanLyCaPhe.BSLayer
                 return false;
             }
             error = "Xóa thành công";
-            return dbMain.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
         }
 
     }

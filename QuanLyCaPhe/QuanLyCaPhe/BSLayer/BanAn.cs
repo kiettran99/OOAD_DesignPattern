@@ -10,20 +10,19 @@ namespace QuanLyCaPhe.BSLayer
 {
     public class BanAn
     {
-        DBMain db;
         public static double ChieuRongBan = 70;
         public static double ChieuDaiBan = 70;
 
         public BanAn()
         {
-            db = new DBMain();
+            
         }
 
         public List<Ban> DanhsachBan()
         {
             List<Ban> lBanAn = new List<Ban>();
 
-            DataSet dt = db.ExecuteQueryDataSet("select * from BanAn", CommandType.Text);
+            DataSet dt = DBMain.getInstance().ExecuteQueryDataSet("select * from BanAn", CommandType.Text);
 
             foreach (DataRow dr in dt.Tables[0].Rows)
             {
@@ -36,7 +35,7 @@ namespace QuanLyCaPhe.BSLayer
 
         public DataSet LayBanAn()
         {
-            return db.ExecuteQueryDataSet("select * from BanAn", CommandType.Text);
+            return DBMain.getInstance().ExecuteQueryDataSet("select * from BanAn", CommandType.Text);
         }
 
         public void ThayDoiTinhTrang(int idBan, bool b, ref string error)
@@ -44,7 +43,7 @@ namespace QuanLyCaPhe.BSLayer
             string strSQL = "";
             if (b) strSQL = $"update BanAn set TinhTrang = N'Đã có người' where IDBanAn = {idBan}";
             else strSQL = $"update BanAn set TinhTrang = N'Trống' where IDBanAn = {idBan}";
-            db.MyExecuteNonQuery(strSQL, CommandType.Text, ref error);
+            DBMain.getInstance().MyExecuteNonQuery(strSQL, CommandType.Text, ref error);
         }
 
         public bool ThemBanAn(string MaBan, string TenBan, string TinhTrang, ref string error)
@@ -60,7 +59,7 @@ namespace QuanLyCaPhe.BSLayer
                 return false;
             }
             error = "Thêm thành công";
-            return db.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
         }
 
         public bool SuaBanAn(string MaBan, string TenBan, string TinhTrang, ref string error)
@@ -76,13 +75,13 @@ namespace QuanLyCaPhe.BSLayer
                 return false;
             }
             error = "Sửa thành công";
-            return db.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
         }
 
         public bool XoaBanAn(string MaBan, ref string error)
         {
             string sqlString = $"delete from BanAn where IDBanAn = '{MaBan}'";
-            return db.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
         }
 
     }

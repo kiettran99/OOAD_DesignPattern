@@ -10,17 +10,14 @@ namespace QuanLyCaPhe.BSLayer
   public  class BanLuongNhanVien
     {
 
-
-        DBMain db = null;
-
         public BanLuongNhanVien()
         {
-            db = new DBMain();
+           
         }
 
         public DataSet LayLuongNv()
         {
-            return db.ExecuteQueryDataSet("select * from view_BanLuongChoNhanVien", CommandType.Text);
+            return DBMain.getInstance().ExecuteQueryDataSet("select * from view_BanLuongChoNhanVien", CommandType.Text);
 
         }
 

@@ -10,23 +10,22 @@ namespace QuanLyCaPhe.BSLayer
 {
     class NhanVien
     {
-        DBMain dbMain = null;
 
         public NhanVien()
         {
-            dbMain = new DBMain();
+
         }
 
         public DataSet LayNhanVien()
         {
-            //return dbMain.ExecuteQueryDataSet("select *from NhanVien", CommandType.Text);
+            //return DBMain.getInstance().ExecuteQueryDataSet("select *from NhanVien", CommandType.Text);
 
-            return dbMain.ExecuteQueryDataSet("uspGetNhanVien_ByTenNV", CommandType.StoredProcedure);
+            return DBMain.getInstance().ExecuteQueryDataSet("uspGetNhanVien_ByTenNV", CommandType.StoredProcedure);
         }
 
         public DataSet LayNhanVienTheoID(int MaNV)
         {
-            return dbMain.ExecuteQueryDataSet($"select * from NhanVien where MaNV = {MaNV}", CommandType.Text);
+            return DBMain.getInstance().ExecuteQueryDataSet($"select * from NhanVien where MaNV = {MaNV}", CommandType.Text);
         } 
 
         public bool SuaNhanVien(string MaNV, string Ho, string TenNV, bool Nu, DateTime NgayNV, DateTime NgaySinh, string DiaChi, string SDT, ref string error)
@@ -44,7 +43,7 @@ namespace QuanLyCaPhe.BSLayer
                 return false;
             }
             error = "Sửa thành công";
-            return dbMain.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
         }
 
         public bool SuaNhanVien(
@@ -61,7 +60,7 @@ namespace QuanLyCaPhe.BSLayer
            ref string error)
         {
 
-            return dbMain.MyExecuteNonQuery("uspUpdateNhanVien", CommandType.StoredProcedure, ref error,
+            return DBMain.getInstance().MyExecuteNonQuery("uspUpdateNhanVien", CommandType.StoredProcedure, ref error,
                 new SqlParameter("@MaNV", MaNV),
                 new SqlParameter("@HoNV", HoNV),
                 new SqlParameter("@TenNV", TenNV),
@@ -81,9 +80,9 @@ namespace QuanLyCaPhe.BSLayer
             try
             {
                 sqlString = "Select TaiKhoan From DangNhap where MaNV = N'" + MaNV + "'";
-                dbMain.LayTKMK(sqlString, CommandType.Text, ref TK);
+                DBMain.getInstance().LayTKMK(sqlString, CommandType.Text, ref TK);
                 sqlString = "Select MatKhau From DangNhap where MaNV=N'" + MaNV + "'";
-                dbMain.LayTKMK(sqlString, CommandType.Text, ref MK);
+                DBMain.getInstance().LayTKMK(sqlString, CommandType.Text, ref MK);
             }
             catch
             {
@@ -103,7 +102,7 @@ namespace QuanLyCaPhe.BSLayer
                 else
                     sqlString = $"Insert into NhanVien values('{MaNV.Trim()}', N'{Ho.Trim()}', N'{TenNV.Trim()}', N'{Nu}', N'{NgaySinh.ToString("yyyy-MM-dd")}', N'{SDT.Trim()}', N'{DiaChi.Trim()}', N'{NgayNV.ToString("yyyy-MM-dd HH:mm:ss")}', null)";
 
-                if (dbMain.MyExecuteNonQuery(sqlString, CommandType.Text, ref error) == true)
+                if (DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error) == true)
                 {
                     error = "Thêm thành công";
                 }
@@ -130,7 +129,7 @@ namespace QuanLyCaPhe.BSLayer
         //    ref string error)
 
         //{
-        //    return dbMain.MyExecuteNonQuery("uspInsertNhanVien", CommandType.StoredProcedure, ref error,
+        //    return DBMain.getInstance().MyExecuteNonQuery("uspInsertNhanVien", CommandType.StoredProcedure, ref error,
         //        new SqlParameter("@MaNV", MaNV),
         //        new SqlParameter("@HoNV", HoNV),
         //        new SqlParameter("@TenNV", TenNV),
@@ -149,8 +148,8 @@ namespace QuanLyCaPhe.BSLayer
 
             //string sqlString = $"delete from NhanVien where MaNV = '{MaNV}'";
 
-            //return dbMain.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
-            return dbMain.MyExecuteNonQuery("uspDeleteNhanVien", CommandType.StoredProcedure, ref error, new SqlParameter("MaNV", MaNV));
+            //return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return DBMain.getInstance().MyExecuteNonQuery("uspDeleteNhanVien", CommandType.StoredProcedure, ref error, new SqlParameter("MaNV", MaNV));
         }
     }
 }
