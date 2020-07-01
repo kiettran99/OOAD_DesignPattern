@@ -9,6 +9,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuanLyCaPhe.BSLayer;
+using QuanLyCaPhe.Facade;
 
 namespace QuanLyCaPhe
 {
@@ -25,6 +26,7 @@ namespace QuanLyCaPhe
         DangNhap BLDN = new DangNhap();
         ChamCong BLCHC = new ChamCong();
         TinhLuong BLTL = new TinhLuong();
+        XoaLoaiThucAnFacade facade = null;
 
         string err;
         string tk, mk;
@@ -38,6 +40,7 @@ namespace QuanLyCaPhe
         {
             InitializeComponent();
             LoadDanhThu();
+            facade = new XoaLoaiThucAnFacade(BTLTA, BLTA);
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -261,7 +264,8 @@ namespace QuanLyCaPhe
                 DialogResult dr = MessageBox.Show("Bạn có muốn xóa ?", "Thông báo", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.OK)
                 {
-                    BTLTA.XoaDanhMuc(txtIDDM.Text, ref err);
+                    //BTLTA.XoaDanhMuc(txtIDDM.Text, ref err);
+                     facade.XoaLoaiThucAn(txtIDDM.Text, ref err);
                     LoadDataDM();
                 }
             }

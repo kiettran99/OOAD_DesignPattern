@@ -23,7 +23,7 @@ namespace QuanLyCaPhe.BSLayer
         {
             //return DBMain.getInstance().ExecuteQueryDataSet("select *from ThucAn", CommandType.Text);
 
-          return DBMain.getInstance().ExecuteQueryDataSet("uspGetLayThucAn", CommandType.StoredProcedure);
+            return DBMain.getInstance().ExecuteQueryDataSet("uspGetLayThucAn", CommandType.StoredProcedure);
         }
 
         public DataSet LayThucAnTheoLoai(string tenLoaiThucAn)
@@ -49,7 +49,7 @@ namespace QuanLyCaPhe.BSLayer
 
         //    return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref err);
         //}
-        
+
 
         public bool ThemThucAn(string MaThucAn, string DanhMuc, float Gia, string TenMon)
         {
@@ -103,6 +103,11 @@ namespace QuanLyCaPhe.BSLayer
             //return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
 
             return DBMain.getInstance().MyExecuteNonQuery("uspDeleteThucAn", CommandType.StoredProcedure, ref error, new SqlParameter("IDThucAn", MaThucAn));
+        }
+
+        public bool XoaThucAnTheoLoai(string MaDanhMuc, ref string error)
+        {
+            return DBMain.getInstance().MyExecuteNonQuery($"delete from ThucAn where IDLoaiThucAn={MaDanhMuc}", CommandType.Text, ref error);
         }
 
         public int TimIDThucAn(string tenThucAn)
