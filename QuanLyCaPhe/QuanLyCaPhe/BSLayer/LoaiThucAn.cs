@@ -20,7 +20,7 @@ namespace QuanLyCaPhe.BSLayer
 
         public DataSet LayLoaiThucAn()
         {
-            return DBMain.getInstance().ExecuteQueryDataSet("select *from LoaiThucAn", CommandType.Text);
+            return DBMain.getInstance().ExecuteQueryDataSet("select *from LoaiThucAn where isDelete = 0", CommandType.Text);
         }
 
         public DataSet LayDanhMuc()
@@ -33,11 +33,24 @@ namespace QuanLyCaPhe.BSLayer
             return DBMain.getInstance().FirstRowQuery($"select * from dbo.ufnTimIDTheoTenLoaiThucAn(N'{TenLoaiThucAn}')", CommandType.Text, ref err).ToString();
         }
 
+        public object MaxID()
+        {
+            return DBMain.getInstance().FirstRowQuery($"select max(IDLoaiThucAN) from LoaiThucAn", CommandType.Text, ref err);
+        }
+
         public bool ThemDanhMuc(string MaDanhMuc, string TenDanhMuc, ref string error)
         {
             try
             {
-                return DBMain.getInstance().MyExecuteNonQuery("Create_LoaiThucAn", CommandType.StoredProcedure, ref error, new SqlParameter("@IDLoaiThucAn", MaDanhMuc), new SqlParameter("@TenLoaiThucAn", TenDanhMuc));
+                if (DBMain.getInstance().FirstRowQuery($"select * from LoaiThucAn where isDelete = 1 and TenLoaiThucAn = N'{TenDanhMuc}'", CommandType.Text, ref error) != null)
+                {
+                    return DBMain.getInstance().MyExecuteNonQuery($"update LoaiThucAn set isDelete = 0 where TenLoaiThucAn = N'{TenDanhMuc}'", CommandType.Text, ref error);
+                }
+                else
+                {
+                    return DBMain.getInstance().MyExecuteNonQuery("Create_LoaiThucAn", CommandType.StoredProcedure, ref error, new SqlParameter("@IDLoaiThucAn", MaDanhMuc), new SqlParameter("@TenLoaiThucAn", TenDanhMuc), new SqlParameter("@isDelete", false));
+                }
+          
             }
             catch (SqlException err)
             {
@@ -65,8 +78,8 @@ namespace QuanLyCaPhe.BSLayer
         public bool XoaDanhMuc(string MaDanhMuc, ref string error)
         {
             //string sqlString = $"delete from LoaiThucAn where MaThucAn = '{MaDanhMuc}'";
-            //return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
-            return DBMain.getInstance().MyExecuteNonQuery("Delete_LoaiThucAn", CommandType.StoredProcedure, ref error, new SqlParameter("@IDLoaiThucAn", MaDanhMuc));
+            return DBMain.getInstance().MyExecuteNonQuery($"update LoaiThucAn set isDelete = 1 where IDLoaiThucAn ={MaDanhMuc}", CommandType.Text, ref error);
+           // return DBMain.getInstance().MyExecuteNonQuery("Delete_LoaiThucAn", CommandType.StoredProcedure, ref error, new SqlParameter("@IDLoaiThucAn", MaDanhMuc));
         }
     }
 }

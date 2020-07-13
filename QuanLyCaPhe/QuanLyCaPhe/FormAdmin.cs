@@ -75,7 +75,7 @@ namespace QuanLyCaPhe
                 case 9:
                     LoadDataLuongNV();
                     break;
-            }   
+            }
         }
 
         #region TabDanhThu
@@ -175,9 +175,9 @@ namespace QuanLyCaPhe
         {
             string IDDanhMuc = BTLTA.TimIDTheoTenLoaiThucAn(cmbDanhMucF.Text);
             if (ThemF == true)
-            {             
+            {
                 BLTA.ThemThucAn(txtFID.Text.Trim(), IDDanhMuc, float.Parse(txtGiaF.Text.Trim()), txtFName.Text.Trim());
-                 
+
                 // Load lại DataGridView
                 LoadDataF();
                 // THông Báo
@@ -222,7 +222,7 @@ namespace QuanLyCaPhe
             {
                 dataTable = new DataTable();
                 dataTable.Clear();
-                DataSet ds = BTLTA.LayDanhMuc();
+                DataSet ds = BTLTA.LayLoaiThucAn();
                 dataTable = ds.Tables[0];
                 // đưa dữ liệu vào dataGridView
                 dgvDanhMuc.DataSource = dataTable;
@@ -252,8 +252,12 @@ namespace QuanLyCaPhe
             txtIDDM.ResetText();
             txtTenDM.ResetText();
             int idDM = 1;
-            if (dgvDanhMuc.Rows.Count > 1)
-                idDM = (int.Parse(dgvDanhMuc.Rows[dgvDanhMuc.Rows.Count - 2].Cells[0].Value.ToString()) + 1);
+            //if (dgvDanhMuc.Rows.Count > 1)
+            //    idDM = (int.Parse(dgvDanhMuc.Rows[dgvDanhMuc.Rows.Count - 2].Cells[0].Value.ToString()) + 1);
+
+            if (BTLTA.MaxID() != null)
+                idDM = (int)BTLTA.MaxID() + 1;
+
             txtIDDM.Text = idDM.ToString();
         }
 
@@ -265,7 +269,7 @@ namespace QuanLyCaPhe
                 if (dr == DialogResult.OK)
                 {
                     //BTLTA.XoaDanhMuc(txtIDDM.Text, ref err);
-                     facade.XoaLoaiThucAn(txtIDDM.Text, ref err);
+                    facade.XoaLoaiThucAn(txtIDDM.Text, ref err);
                     LoadDataDM();
                 }
             }
@@ -657,7 +661,7 @@ namespace QuanLyCaPhe
 
                 //Lấy dữ liệu loại thức đổ vào combo box
                 cmbDanhMucF.DisplayMember = "TenLoaiThucAn";
-                cmbDanhMucF.DataSource = BTLTA.LayDanhMuc().Tables[0];
+                cmbDanhMucF.DataSource = BTLTA.LayLoaiThucAn().Tables[0];
             }
             catch (Exception errr)
             {
@@ -715,6 +719,7 @@ namespace QuanLyCaPhe
             int idNV = 1;
             if (dgvNhanVien.Rows.Count > 1)
                 idNV = (int.Parse(dgvNhanVien.Rows[dgvNhanVien.Rows.Count - 2].Cells[0].Value.ToString()) + 1);
+
             txtMaNV.Text = idNV.ToString();
         }
 

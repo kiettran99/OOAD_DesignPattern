@@ -4,10 +4,10 @@ go
 drop procedure if exists Create_LoaiThucAn
 go
 
-create procedure Create_LoaiThucAn @IDLoaiThucAn int, @TenLoaiThucAn nvarchar(100)
+create procedure Create_LoaiThucAn @IDLoaiThucAn int, @TenLoaiThucAn nvarchar(100), @isDelete bit
 as
 begin
-	insert into LoaiThucAn values(@IDLoaiThucAn, @TenLoaiThucAn)
+	insert into LoaiThucAn values(@IDLoaiThucAn, @TenLoaiThucAn, @isDelete)
 end
 go
 

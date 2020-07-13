@@ -84,6 +84,7 @@ create table BanAn(
 create table LoaiThucAn(
 	IDLoaiThucAn int not null,
 	TenLoaiThucAn nvarchar(100) not null default N'Không có tên',
+	isDelete bit,
 	primary key (IDLoaiThucAn)
 )
 insert into LoaiThucAn values(10,N'Trái Cây')
@@ -96,6 +97,7 @@ create table ThucAn(
 	TenThucAn nvarchar(100) not null default N'Không có tên',
 	IDLoaiThucAn int not null,
 	Gia float default 0,
+	isDelete bit,
 	primary key (IDThucAn),
 	foreign key (IDLoaiThucAn) references LoaiThucAn(IDLoaiThucAn)
 )
