@@ -79,6 +79,7 @@
     <Compile Include="BSLayer\ThongKeHoaDon.cs" />
     <Compile Include="BSLayer\ThucAn.cs" />
     <Compile Include="BSLayer\TinhLuong.cs" />
+    <Compile Include="Builders\DanhThuBuilder.cs" />
     <Compile Include="DSLayer\DBMain.cs" />
     <Compile Include="Facade\XoaLoaiThucAnFacade.cs" />
     <Compile Include="FormAdmin.cs">
@@ -244,6 +245,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

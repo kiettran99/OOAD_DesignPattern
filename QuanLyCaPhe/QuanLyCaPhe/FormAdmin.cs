@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuanLyCaPhe.BSLayer;
 using QuanLyCaPhe.Facade;
+using QuanLyCaPhe.Builders;
 
 namespace QuanLyCaPhe
 {
@@ -27,6 +28,7 @@ namespace QuanLyCaPhe
         ChamCong BLCHC = new ChamCong();
         TinhLuong BLTL = new TinhLuong();
         XoaLoaiThucAnFacade facade = null;
+        DanhThu dt;
 
         string err;
         string tk, mk;
@@ -82,15 +84,17 @@ namespace QuanLyCaPhe
 
         private void LoadDanhThu()
         {
-            DanhThu dt = new DanhThu();
-            dgvDanhThu.DataSource = dt.LayDanhThu(dtpNgayTaoHoaDon.Value, dtpNgayKetThucHoaDon.Value).Tables[0];
+            dt = new DanhThuBuilder().TaoNgayTaoHoaDon(dtpNgayTaoHoaDon.Value)
+               .TaoNgayKetThucHoaDon(dtpNgayKetThucHoaDon.Value).Build();
+            dgvDanhThu.DataSource = dt.LayDanhThu().Tables[0];
         }
 
 
         private void btnThongKe_Click(object sender, EventArgs e)
         {
-            DanhThu dt = new DanhThu();
-            dgvDanhThu.DataSource = dt.LayDanhThu(dtpNgayTaoHoaDon.Value, dtpNgayKetThucHoaDon.Value).Tables[0];
+            dt = new DanhThuBuilder().TaoNgayTaoHoaDon(dtpNgayTaoHoaDon.Value)
+              .TaoNgayKetThucHoaDon(dtpNgayKetThucHoaDon.Value).Build();
+            dgvDanhThu.DataSource = dt.LayDanhThu().Tables[0];
         }
 
         #endregion
