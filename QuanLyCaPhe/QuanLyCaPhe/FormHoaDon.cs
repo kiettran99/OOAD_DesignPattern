@@ -8,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuanLyCaPhe.BSLayer;
+using QuanLyCaPhe.Builders;
 
 namespace QuanLyCaPhe
 {
     public partial class FormHoaDon : Form
     {
-        ThongKeHoaDon tkHoaDon = new ThongKeHoaDon();
+        ThongKeHoaDon tkHoaDon;
         public FormHoaDon()
         {
             InitializeComponent();
@@ -24,13 +25,15 @@ namespace QuanLyCaPhe
         {
             if (FormManHinhChinh.quyentruycap == QuyenTruyCap.Administrator)
             {
+                tkHoaDon = new ThongKeHoaDonBuilder().Build();
                 //Quản trị viên có thể xem tất cả các dữ liệu.
                 dgvHoaDon.DataSource = tkHoaDon.LayThongKeHoaDon().Tables[0];
             }
             else
             {
+                tkHoaDon = new ThongKeHoaDonBuilder().taoMaNV(FormManHinhChinh.IDNguoiDangNhap).Build();
                 if (FormManHinhChinh.IDNguoiDangNhap != 0)
-                    dgvHoaDon.DataSource = tkHoaDon.LayThongKeHoaDonTheoNhanVien(FormManHinhChinh.IDNguoiDangNhap).Tables[0];
+                    dgvHoaDon.DataSource = tkHoaDon.LayThongKeHoaDonTheoNhanVien().Tables[0];
             }
             dgvHoaDon.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
         }

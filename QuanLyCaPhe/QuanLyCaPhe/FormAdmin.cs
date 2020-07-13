@@ -92,9 +92,7 @@ namespace QuanLyCaPhe
 
         private void btnThongKe_Click(object sender, EventArgs e)
         {
-            dt = new DanhThuBuilder().TaoNgayTaoHoaDon(dtpNgayTaoHoaDon.Value)
-              .TaoNgayKetThucHoaDon(dtpNgayKetThucHoaDon.Value).Build();
-            dgvDanhThu.DataSource = dt.LayDanhThu().Tables[0];
+            LoadDanhThu();
         }
 
         #endregion

@@ -80,6 +80,7 @@
     <Compile Include="BSLayer\ThucAn.cs" />
     <Compile Include="BSLayer\TinhLuong.cs" />
     <Compile Include="Builders\DanhThuBuilder.cs" />
+    <Compile Include="Builders\ThongKeHoaDonBuilder.cs" />
     <Compile Include="DSLayer\DBMain.cs" />
     <Compile Include="Facade\XoaLoaiThucAnFacade.cs" />
     <Compile Include="FormAdmin.cs">

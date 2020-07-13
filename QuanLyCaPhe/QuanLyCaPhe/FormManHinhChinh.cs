@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuanLyCaPhe.BSLayer;
+using QuanLyCaPhe.Builders;
 
 namespace QuanLyCaPhe
 {
@@ -35,7 +36,6 @@ namespace QuanLyCaPhe
             loaita = new LoaiThucAn();
             thucan = new ThucAn();
             hoadon = new HoaDon();
-            tkhoadon = new ThongKeHoaDon();
             nv = new NhanVien();
         }
 
@@ -305,7 +305,11 @@ namespace QuanLyCaPhe
                             tenNhanVien += " " + dtNhanVien.Rows[0]["TenNV"].ToString();
                     }
 
-                    tkhoadon.ThemThongKeHoaDon(IDBill, IDNguoiDangNhap, tenNhanVien, "Khách", DateTime.Now, tongtien);
+                    tkhoadon = new ThongKeHoaDonBuilder().taoIDHoaDon(IDBill)
+                            .taoMaNV(IDNguoiDangNhap).taoTenNV(tenNhanVien)
+                            .taotenKH("Khách").taoNgayBan(DateTime.Now).taoThanhTien(tongtien).Build();
+
+                    tkhoadon.ThemThongKeHoaDon();
 
                     FormThanhToan formThanhToan = new FormThanhToan(IDBill);
                     formThanhToan.Show();

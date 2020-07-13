@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using QuanLyCaPhe.DBLayer;
+using System;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QuanLyCaPhe.DBLayer;
 
 namespace QuanLyCaPhe.BSLayer
 {
@@ -12,19 +8,48 @@ namespace QuanLyCaPhe.BSLayer
     {
         string err = "";
 
+        private int iDHoaDon;
+        private int maNV;
+        private string tenNV;
+        private string tenKH;
+        private DateTime ngayBan;
+        private float thanhTien;
+
+        public int IDHoaDon { get; set; }
+        public int MaNV { get; set; }
+        public string TenNV { get; set; }
+        public string TenKH { get; set; }
+        public DateTime NgayBan { get; set; }
+        public float ThanhTien { get; set; }
+
+        public ThongKeHoaDon(int iDHoaDon,
+        int maNV,
+        string tenNV,
+        string tenKH,
+        DateTime ngayBan,
+        float thanhTien)
+        {
+            this.iDHoaDon = iDHoaDon;
+            this.maNV = maNV;
+            this.tenNV = tenNV;
+            this.tenKH = tenKH;
+            this.ngayBan = ngayBan;
+            this.thanhTien = thanhTien;
+        }
+
         public DataSet LayThongKeHoaDon()
         {
             return DBMain.getInstance().ExecuteQueryDataSet("select * from view_HoaDonBan", CommandType.Text);
         }
 
-        public DataSet LayThongKeHoaDonTheoNhanVien(int MaNhanVien)
+        public DataSet LayThongKeHoaDonTheoNhanVien()
         {
-            return DBMain.getInstance().ExecuteQueryDataSet($"select IDHoaDon, TenNV, TenKH, NgayBan, ThanhTien from NhanVien_HoaDon_KhachHang where MaNV = {MaNhanVien}", CommandType.Text);
+            return DBMain.getInstance().ExecuteQueryDataSet($"select IDHoaDon, TenNV, TenKH, NgayBan, ThanhTien from NhanVien_HoaDon_KhachHang where MaNV = {maNV}", CommandType.Text);
         }
 
-        public void ThemThongKeHoaDon(int IDHoaDon, int MaNV, string TenNV, string TenKH, DateTime NgayBan, float ThanhTien)
+        public void ThemThongKeHoaDon()
         {
-            DBMain.getInstance().MyExecuteNonQuery($"insert into NhanVien_HoaDon_KhachHang values({IDHoaDon}, {MaNV}, N'{TenNV}', N'{TenKH}', N'{NgayBan.ToString("yyyy-MM-dd HH:mm:ss")}', {ThanhTien})", CommandType.Text, ref err);
+            DBMain.getInstance().MyExecuteNonQuery($"insert into NhanVien_HoaDon_KhachHang values({iDHoaDon}, {maNV}, N'{tenNV}', N'{tenKH}', N'{ngayBan.ToString("yyyy-MM-dd HH:mm:ss")}', {thanhTien})", CommandType.Text, ref err);
         }
 
     }
