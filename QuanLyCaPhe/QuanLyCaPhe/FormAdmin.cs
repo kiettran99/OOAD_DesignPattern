@@ -29,6 +29,7 @@ namespace QuanLyCaPhe
         TinhLuong BLTL = new TinhLuong();
         XoaLoaiThucAnFacade facade = null;
         DanhThu dt;
+        DanhThuBuilder doanhThuBuilder = null;
 
         string err;
         string tk, mk;
@@ -41,8 +42,9 @@ namespace QuanLyCaPhe
         public FormAdmin()
         {
             InitializeComponent();
-            LoadDanhThu();
             facade = new XoaLoaiThucAnFacade(BTLTA, BLTA);
+            doanhThuBuilder = new DanhThuBuilder();
+            LoadDanhThu();
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -84,7 +86,7 @@ namespace QuanLyCaPhe
 
         private void LoadDanhThu()
         {
-            dt = new DanhThuBuilder().TaoNgayTaoHoaDon(dtpNgayTaoHoaDon.Value)
+            dt = doanhThuBuilder.TaoNgayTaoHoaDon(dtpNgayTaoHoaDon.Value)
                .TaoNgayKetThucHoaDon(dtpNgayKetThucHoaDon.Value).Build();
             dgvDanhThu.DataSource = dt.LayDanhThu().Tables[0];
         }

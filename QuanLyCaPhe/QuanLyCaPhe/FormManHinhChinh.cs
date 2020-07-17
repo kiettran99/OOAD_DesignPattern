@@ -27,6 +27,7 @@ namespace QuanLyCaPhe
         //Biến Tĩnh Trạng Thái
         public static int IDNguoiDangNhap = -1;
         public static QuyenTruyCap quyentruycap = QuyenTruyCap.Khong;
+        private ThongKeHoaDonBuilder thongKeHoaDonBuilder;
 
         public FormManHinhChinh()
         {
@@ -37,6 +38,7 @@ namespace QuanLyCaPhe
             thucan = new ThucAn();
             hoadon = new HoaDon();
             nv = new NhanVien();
+            thongKeHoaDonBuilder = new ThongKeHoaDonBuilder();
         }
 
         #region Method
@@ -305,7 +307,7 @@ namespace QuanLyCaPhe
                             tenNhanVien += " " + dtNhanVien.Rows[0]["TenNV"].ToString();
                     }
 
-                    tkhoadon = new ThongKeHoaDonBuilder().taoIDHoaDon(IDBill)
+                    tkhoadon = thongKeHoaDonBuilder.taoIDHoaDon(IDBill)
                             .taoMaNV(IDNguoiDangNhap).taoTenNV(tenNhanVien)
                             .taotenKH("Khách").taoNgayBan(DateTime.Now).taoThanhTien(tongtien).Build();
 

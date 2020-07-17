@@ -14,23 +14,24 @@ namespace QuanLyCaPhe.BSLayer
     {
 
         string err = "";
+        private readonly DBMain db;
         public ThucAn()
         {
-
+            db = DBMain.getInstance();
         }
 
         public DataSet LayThucAn()
         {
-            return DBMain.getInstance().ExecuteQueryDataSet("select * from ThucAn join LoaiThucAn on ThucAn.IDLoaiThucAn = LoaiThucAn.IDLoaiThucAn where ThucAn.isDelete = 0", CommandType.Text);
+            return db.ExecuteQueryDataSet("select * from ThucAn join LoaiThucAn on ThucAn.IDLoaiThucAn = LoaiThucAn.IDLoaiThucAn where ThucAn.isDelete = 0", CommandType.Text);
 
-            //return DBMain.getInstance().ExecuteQueryDataSet("uspGetLayThucAn", CommandType.StoredProcedure);
+            //return db.ExecuteQueryDataSet("uspGetLayThucAn", CommandType.StoredProcedure);
         }
 
         public DataSet LayThucAnTheoLoai(string tenLoaiThucAn)
         {
 
-            return DBMain.getInstance().ExecuteQueryDataSet($"select * from ThucAn join LoaiThucAn on ThucAn.IDLoaiThucAn = LoaiThucAn.IDLoaiThucAn where TenLoaiThucAn = N'{tenLoaiThucAn}' and ThucAn.isDelete = 0", CommandType.Text);
-            //return DBMain.getInstance().ExecuteQueryDataSet("uspGetLayThucAn_ByTenLoaiThucAn", CommandType.StoredProcedure, new SqlParameter("@TenLoaiThucAn", tenLoaiThucAn));
+            return db.ExecuteQueryDataSet($"select * from ThucAn join LoaiThucAn on ThucAn.IDLoaiThucAn = LoaiThucAn.IDLoaiThucAn where TenLoaiThucAn = N'{tenLoaiThucAn}' and ThucAn.isDelete = 0", CommandType.Text);
+            //return db.ExecuteQueryDataSet("uspGetLayThucAn_ByTenLoaiThucAn", CommandType.StoredProcedure, new SqlParameter("@TenLoaiThucAn", tenLoaiThucAn));
         }
 
         //public bool ThemThucAn(string MaThucAn, string DanhMuc, float Gia, string TenMon)
@@ -47,7 +48,7 @@ namespace QuanLyCaPhe.BSLayer
         //        return false;
         //    }
 
-        //    return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref err);
+        //    return db.MyExecuteNonQuery(sqlString, CommandType.Text, ref err);
         //}
 
 
@@ -55,14 +56,14 @@ namespace QuanLyCaPhe.BSLayer
         {
             try
             {
-                if (DBMain.getInstance().FirstRowQuery($"select * from ThucAn join LoaiThucAn on ThucAn.IDLoaiThucAn = LoaiThucAn.IDLoaiThucAn where ThucAn.isDelete = 1 and ThucAn.TenThucAn = N'{TenMon}'", CommandType.Text, ref err) != null)
+                if (db.FirstRowQuery($"select * from ThucAn join LoaiThucAn on ThucAn.IDLoaiThucAn = LoaiThucAn.IDLoaiThucAn where ThucAn.isDelete = 1 and ThucAn.TenThucAn = N'{TenMon}'", CommandType.Text, ref err) != null)
                 {
-                    return DBMain.getInstance().MyExecuteNonQuery($"update ThucAn set isDelete = 0 where TenThucAn = N'{TenMon}'", CommandType.Text, ref err);
+                    return db.MyExecuteNonQuery($"update ThucAn set isDelete = 0 where TenThucAn = N'{TenMon}'", CommandType.Text, ref err);
                 }
                 else
                 {
                     err = "Thêm thành công";
-                    return DBMain.getInstance().MyExecuteNonQuery("Create_ThucAn", CommandType.StoredProcedure, ref err, new SqlParameter("@IDThucAn", MaThucAn), new SqlParameter("@IDLoaiThucAn", DanhMuc), new SqlParameter("@Gia", Gia), new SqlParameter("@TenMonAn", TenMon));
+                    return db.MyExecuteNonQuery("Create_ThucAn", CommandType.StoredProcedure, ref err, new SqlParameter("@IDThucAn", MaThucAn), new SqlParameter("@IDLoaiThucAn", DanhMuc), new SqlParameter("@Gia", Gia), new SqlParameter("@TenMonAn", TenMon));
                 }                    
             }
             catch (SqlException err1)
@@ -76,7 +77,7 @@ namespace QuanLyCaPhe.BSLayer
             bool f = false;
             try
             {
-                f = DBMain.getInstance().MyExecuteNonQuery("Update_ThucAn", CommandType.StoredProcedure, ref err, new SqlParameter("@IDThucAn", MaThucAn), new SqlParameter("@IDLoaiThucAn", DanhMuc), new SqlParameter("@Gia", Gia), new SqlParameter("@TenMonAn", TenMon));
+                f = db.MyExecuteNonQuery("Update_ThucAn", CommandType.StoredProcedure, ref err, new SqlParameter("@IDThucAn", MaThucAn), new SqlParameter("@IDLoaiThucAn", DanhMuc), new SqlParameter("@Gia", Gia), new SqlParameter("@TenMonAn", TenMon));
                 err = "Sửa thành công";
                 return f;
             }
@@ -95,7 +96,7 @@ namespace QuanLyCaPhe.BSLayer
         //string TenLoaiThucAn,
         //int SoLuong)
         //{     
-        //    return DBMain.getInstance().MyExecuteNonQuery("uspUpdateThucAn", CommandType.StoredProcedure, ref error,
+        //    return db.MyExecuteNonQuery("uspUpdateThucAn", CommandType.StoredProcedure, ref error,
         //            new SqlParameter("@IDHoaDon", IDHoaDon),
         //            new SqlParameter("@IDThucAn", IDThucAn),
         //            new SqlParameter("@TenThucAn", TenThucAn),
@@ -107,28 +108,28 @@ namespace QuanLyCaPhe.BSLayer
         public bool XoaThucAn(string MaThucAn, ref string error)
         {
             string sqlString = $"update ThucAn set isDelete = 1 where IDThucAn = {MaThucAn}";
-            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
-            //return DBMain.getInstance().MyExecuteNonQuery("uspDeleteThucAn", CommandType.StoredProcedure, ref error, new SqlParameter("IDThucAn", MaThucAn));
+            return db.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            //return db.MyExecuteNonQuery("uspDeleteThucAn", CommandType.StoredProcedure, ref error, new SqlParameter("IDThucAn", MaThucAn));
         }
 
         public bool XoaThucAnTheoLoai(string MaDanhMuc, ref string error)
         {
-            return DBMain.getInstance().MyExecuteNonQuery($"update ThucAn set isDelete = 1 where IDLoaiThucAn={MaDanhMuc}", CommandType.Text, ref error);
+            return db.MyExecuteNonQuery($"update ThucAn set isDelete = 1 where IDLoaiThucAn={MaDanhMuc}", CommandType.Text, ref error);
         }
 
         public int TimIDThucAn(string tenThucAn)
         {
-            return Convert.ToInt32(DBMain.getInstance().FirstRowQuery($"select * from dbo.ufnTimIDThucAn(N'{tenThucAn}')", CommandType.Text, ref err));
+            return Convert.ToInt32(db.FirstRowQuery($"select * from dbo.ufnTimIDThucAn(N'{tenThucAn}')", CommandType.Text, ref err));
         }
 
         public int TimMaxIDThucAn()
         {
-            return (int)DBMain.getInstance().FirstRowQuery($"select * from dbo.ufnTimMaxIDThucAn()", CommandType.Text, ref err);
+            return (int)db.FirstRowQuery($"select * from dbo.ufnTimMaxIDThucAn()", CommandType.Text, ref err);
         }
 
         public DataSet TimKimF(string TenThucAn)
         {
-            return DBMain.getInstance().ExecuteQueryDataSet($"select * from dbo.ufnTimFThucAn(N'{TenThucAn}')", CommandType.Text);
+            return db.ExecuteQueryDataSet($"select * from dbo.ufnTimFThucAn(N'{TenThucAn}')", CommandType.Text);
         }
     }
 

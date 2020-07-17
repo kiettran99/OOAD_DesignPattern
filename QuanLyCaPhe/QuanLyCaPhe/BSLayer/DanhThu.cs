@@ -12,14 +12,16 @@ namespace QuanLyCaPhe.BSLayer
     {
         private DateTime ngayTaoHoaDon;
         private DateTime ngayKetThucHoaDon;
+        private readonly DBMain db;
 
         public DanhThu()
         {
-         
+            db = DBMain.getInstance();
         }
 
         public DanhThu(DateTime ngayTaoHoaDon, DateTime ngayKetThucHoaDon)
         {
+            db = DBMain.getInstance();
             this.ngayTaoHoaDon = ngayTaoHoaDon;
             this.ngayKetThucHoaDon = ngayKetThucHoaDon;
         }
@@ -56,7 +58,7 @@ namespace QuanLyCaPhe.BSLayer
         {
             string strSQL = $"select IDHoaDon, TenBan, NgayTaoHoaDon, NgayKetThucHoaDon, GiamGia,TongTien from HoaDon join BanAn on HoaDon.IDBanAn = BanAn.IDBanAn where HoaDon.TinhTrang = 1 and cast(NgayTaoHo" +
                 $"aDon as date) >= '{ngayTaoHoaDon.Year}-{ngayTaoHoaDon.Month}-{ngayTaoHoaDon.Day}' and cast(NgayKetthucHoaDon as Date) <= '{ngayKetThucHoaDon.Year}-{ngayKetThucHoaDon.Month}-{ngayKetThucHoaDon.Day} '";
-            return DBMain.getInstance().ExecuteQueryDataSet(strSQL, CommandType.Text);
+            return db.ExecuteQueryDataSet(strSQL, CommandType.Text);
         }     
         
     }

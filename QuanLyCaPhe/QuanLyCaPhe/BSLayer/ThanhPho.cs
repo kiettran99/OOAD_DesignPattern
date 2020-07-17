@@ -12,19 +12,20 @@ namespace QuanLyCaPhe.BSLayer
     {
 
         string err = "";
+        private readonly DBMain db;
         public ThanhPho()
         {
-
+            db = DBMain.getInstance();
         }
 
         public DataSet LayThanhPho()
         {
-            return DBMain.getInstance().ExecuteQueryDataSet("select *from ThanhPho", CommandType.Text);
+            return db.ExecuteQueryDataSet("select *from ThanhPho", CommandType.Text);
         }
 
         public int TimIDThanhPhoTheoTen(string tenThanhPho)
         {
-            return (int)DBMain.getInstance().FirstRowQuery($"select distinct MaThanhPho from ThanhPho where ThanhPho.TenThanhPho = N'{tenThanhPho}'", CommandType.Text, ref err);
+            return (int)db.FirstRowQuery($"select distinct MaThanhPho from ThanhPho where ThanhPho.TenThanhPho = N'{tenThanhPho}'", CommandType.Text, ref err);
         }
 
         public bool ThemThanhPho(string TenTP, ref string error)
@@ -44,7 +45,7 @@ namespace QuanLyCaPhe.BSLayer
                 return false;
             }
             error = "Thêm thành công";
-            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return db.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
         }
 
         public bool SuaThanhPho(string TenTP,string MaTP, ref string error)
@@ -60,7 +61,7 @@ namespace QuanLyCaPhe.BSLayer
                 return false;
             }
             error = "Sửa thành công";
-            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return db.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
         }
 
         public bool Xoa(ref string error, string MaTP)
@@ -76,7 +77,7 @@ namespace QuanLyCaPhe.BSLayer
                 return false;
             }
             error = "Xóa thành công";
-            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return db.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
         }
 
     }

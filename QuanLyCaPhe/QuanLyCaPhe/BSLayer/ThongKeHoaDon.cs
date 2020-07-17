@@ -7,6 +7,7 @@ namespace QuanLyCaPhe.BSLayer
     public class ThongKeHoaDon
     {
         string err = "";
+        private readonly DBMain db;
 
         private int iDHoaDon;
         private int maNV;
@@ -22,6 +23,11 @@ namespace QuanLyCaPhe.BSLayer
         public DateTime NgayBan { get; set; }
         public float ThanhTien { get; set; }
 
+        public ThongKeHoaDon()
+        {
+            db = DBMain.getInstance();
+        }
+
         public ThongKeHoaDon(int iDHoaDon,
         int maNV,
         string tenNV,
@@ -35,21 +41,22 @@ namespace QuanLyCaPhe.BSLayer
             this.tenKH = tenKH;
             this.ngayBan = ngayBan;
             this.thanhTien = thanhTien;
+            db = DBMain.getInstance();
         }
 
         public DataSet LayThongKeHoaDon()
         {
-            return DBMain.getInstance().ExecuteQueryDataSet("select * from view_HoaDonBan", CommandType.Text);
+            return db.ExecuteQueryDataSet("select * from view_HoaDonBan", CommandType.Text);
         }
 
         public DataSet LayThongKeHoaDonTheoNhanVien()
         {
-            return DBMain.getInstance().ExecuteQueryDataSet($"select IDHoaDon, TenNV, TenKH, NgayBan, ThanhTien from NhanVien_HoaDon_KhachHang where MaNV = {maNV}", CommandType.Text);
+            return db.ExecuteQueryDataSet($"select IDHoaDon, TenNV, TenKH, NgayBan, ThanhTien from NhanVien_HoaDon_KhachHang where MaNV = {maNV}", CommandType.Text);
         }
 
         public void ThemThongKeHoaDon()
         {
-            DBMain.getInstance().MyExecuteNonQuery($"insert into NhanVien_HoaDon_KhachHang values({iDHoaDon}, {maNV}, N'{tenNV}', N'{tenKH}', N'{ngayBan.ToString("yyyy-MM-dd HH:mm:ss")}', {thanhTien})", CommandType.Text, ref err);
+            db.MyExecuteNonQuery($"insert into NhanVien_HoaDon_KhachHang values({iDHoaDon}, {maNV}, N'{tenNV}', N'{tenKH}', N'{ngayBan.ToString("yyyy-MM-dd HH:mm:ss")}', {thanhTien})", CommandType.Text, ref err);
         }
 
     }

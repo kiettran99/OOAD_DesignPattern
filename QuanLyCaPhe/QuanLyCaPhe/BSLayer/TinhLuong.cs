@@ -10,16 +10,16 @@ namespace QuanLyCaPhe.BSLayer
 {
     class TinhLuong
     {
-
+        private readonly DBMain db;
 
         public TinhLuong()
         {
-
+            db = DBMain.getInstance();
         }
 
         public DataSet LayTTTL()
         {
-            return DBMain.getInstance().ExecuteQueryDataSet("uspGetLayTTTL", CommandType.StoredProcedure);
+            return db.ExecuteQueryDataSet("uspGetLayTTTL", CommandType.StoredProcedure);
             
         }
 
@@ -27,7 +27,7 @@ namespace QuanLyCaPhe.BSLayer
         {
             string sqlString;
             sqlString = $"Insert into TinhLuong values('{MaNV}', N'{TenNV}',N'{0}',N'{0}')";
-            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return db.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
         }
         //public bool ThemNhanVien(
                 
@@ -44,7 +44,7 @@ namespace QuanLyCaPhe.BSLayer
         //    ref string error)
 
         //{
-        //    return DBMain.getInstance().MyExecuteNonQuery("uspInsertNhanVien",CommandType.StoredProcedure,ref error,
+        //    return db.MyExecuteNonQuery("uspInsertNhanVien",CommandType.StoredProcedure,ref error,
         //        new SqlParameter("@MaNV",MaNV),
         //        new SqlParameter("@HoNV", HoNV),
         //        new SqlParameter("@TenNV", TenNV),
@@ -72,13 +72,13 @@ namespace QuanLyCaPhe.BSLayer
                 return false;
             }
             error = "Tính lương thành công";
-            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return db.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
         }
 
         public bool ReStartL(string MaNV,ref string error)
         {
             string sqlString = "Update TinhLuong Set SoGioLam=N'" + 0+ "',Luong =N'" + 0 + "' Where MaNV= '" + MaNV + "'";
-            return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            return db.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
 
         }
         
@@ -87,7 +87,7 @@ namespace QuanLyCaPhe.BSLayer
             string sqlString1 = "Select GioIn from ChamCong where MaNV ='" + MaNV + "'";
 
             string sqlString2 = "Select GioOut from ChamCong where MaNV ='" + MaNV + "'";
-            DBMain.getInstance().LayTime(sqlString1, sqlString2, CommandType.Text, ref dl1, ref dl2);
+            db.LayTime(sqlString1, sqlString2, CommandType.Text, ref dl1, ref dl2);
 
             return;
 
@@ -98,21 +98,21 @@ namespace QuanLyCaPhe.BSLayer
         {
             //string sqlString = $"delete from TinhLuong where MaNV = '{MaNV}'";
 
-            //return DBMain.getInstance().MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
+            //return db.MyExecuteNonQuery(sqlString, CommandType.Text, ref error);
 
-            return DBMain.getInstance().MyExecuteNonQuery("uspDeleteNhanVien", CommandType.StoredProcedure, ref error, new SqlParameter("MaNV", MaNV));
+            return db.MyExecuteNonQuery("uspDeleteNhanVien", CommandType.StoredProcedure, ref error, new SqlParameter("MaNV", MaNV));
 
         }
 
         public void LaySoTime(string MaNV, ref float SoTime)
         {
             string sqlString = "Select SoGioLam from TinhLuong where MaNV ='" + MaNV + "'";
-            try { DBMain.getInstance().LaySoTime(sqlString, CommandType.Text, ref SoTime); }
+            try { db.LaySoTime(sqlString, CommandType.Text, ref SoTime); }
             catch { }
             return;
 
 
-            //return DBMain.getInstance().MyExecuteNonQuery("uspGetLaySoTime", CommandType.StoredProcedure,
+            //return db.MyExecuteNonQuery("uspGetLaySoTime", CommandType.StoredProcedure,
             //    ref SoTime, new SqlParameter("MaNV", MaNV));
 
         }
